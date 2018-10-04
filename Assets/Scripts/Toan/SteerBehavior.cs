@@ -12,15 +12,16 @@ namespace AI
         public float SafeDist { get; set; }
         public SteerBehavior()
         {
-            deceleration = Deceleration.Fast;
+            deceleration = Deceleration.Normal;
         }
         public Vector3 Seek(AIAgent agent, Vector3 target)
         {
             Vector3 desireDir = target - agent.Position;
             float maxSpeed = agent.MaxSpeed;
-            if (desireDir.magnitude > 0.1f)
+            if (desireDir.sqrMagnitude > 0.1f)
             {
-                Vector3 result = desireDir.normalized * maxSpeed - agent.rigid.velocity;
+                // Vector3 result = desireDir.normalized * maxSpeed - agent.Velocity;
+                Vector3 result = desireDir - agent.Velocity;
                 return result;
             }
             return Vector3.zero;
@@ -31,7 +32,7 @@ namespace AI
             float distToTarget = Vector3.SqrMagnitude(target - agent.Position);
             float panicDist = Mathf.Pow(agent.BoundRadius + SafeDist,2);
 
-            if (distToTarget < panicDist && distToTarget > 0.1f)
+            if (distToTarget < panicDist)
             {
                 Vector3 desireVel = - Seek(agent, target);
                 // scale the force inversely proportional to the agent's target
@@ -51,7 +52,7 @@ namespace AI
                 speed = Mathf.Min(speed, agent.MaxSpeed);
                 toTarget = toTarget * speed / dist;
 
-                Vector3 desireVel = toTarget - agent.rigid.velocity;
+                Vector3 desireVel = toTarget - agent.Velocity;
                 return desireVel;
             }
             return Vector3.zero;

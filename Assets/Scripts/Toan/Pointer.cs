@@ -11,18 +11,32 @@ public class Pointer : MonoBehaviour
     private Camera rtsCamera;
 
     #region Properties
+    //public Vector3 Position
+    //{
+    //    get
+    //    {
+    //        position = transform.position;
+    //        return position;
+    //    }
+    //    set
+    //    {
+    //        value.y = 0;
+    //        transform.position = value;
+
+    //    }
+    //}
+
+    // using projection
     public Vector3 Position
     {
         get
         {
-            position = transform.position;
+            position = Vector3.ProjectOnPlane(transform.position, Vector3.up);
             return position;
         }
         set
         {
-            value.y = 0;
             transform.position = value;
-
         }
     }
     #endregion

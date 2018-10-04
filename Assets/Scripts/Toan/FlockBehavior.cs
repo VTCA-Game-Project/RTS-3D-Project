@@ -41,7 +41,7 @@ namespace AI
             if(neighbours.Length > 0)
             {
                 averageHeading /= neighbours.Length;
-                averageHeading -= agent.rigid.velocity;
+                averageHeading -= agent.Velocity;
             }
             return averageHeading;
         }
